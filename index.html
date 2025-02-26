@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success</title>
+  <meta name="description" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success">
+  <meta name="keywords" content="OpenVLA-OFT, fine-tuning recipe, VLAs">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success">
+  <meta property="og:image" content="https://openvla-oft.github.io/static/images/teaser.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1939" />
+  <meta property="og:image:height" content="772" />
+  <meta property="og:url" content="https://openvla-oft.github.io/" />
+  <meta property="og:description" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success" />
+  <meta name="twitter:title" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success" />
+  <meta name="twitter:description" content="Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success" />
+  <meta name="twitter:image" content="https://openvla-oft.github.io/static/images/teaser.png" />
+  
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Fine-Tuning Vision-Language-Action Models:<br>Optimizing Speed and Success</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://moojink.com/" target="_blank">Moo Jin Kim</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://ai.stanford.edu/~cbfinn/" target="_blank">Chelsea Finn</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://cs.stanford.edu/~pliang/" target="_blank">Percy Liang</a><sup>1</sup>
+              </span>
+            </div>
+
+            
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Stanford University</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2406.09246" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <span class="link-block">
+                  <a href="https://youtu.be/T3Zkkr_NTSA?feature=shared" class="external-link button is-normal is-rounded is-dark" target="_blank">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/moojink/openvla-oft" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Model Link. -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/moojink?search_models=oft" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img src="static/images/hf_icon.svg" />
+                    </span>
+                    <span>Models</span>
+                  </a>
+                </span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero youtube-video">
+    <div class="container is-max-desktop has-text-centered">
+      <h2 class="title is-3" style="margin-top: 20px; margin-bottom: 0;">OpenVLA-OFT Summary Video</h2>
+      <p style="margin-top: 10px; margin-bottom: 0;">(🔊 Turn on sound to follow along with the narration! 🔊)</p>
+      <div class="hero-body" style="padding-top: 20px;">
+        <iframe width="100%" height="535" 
+          src="https://www.youtube.com/embed/T3Zkkr_NTSA?autoplay=1&mute=1"
+          title="OpenVLA-OFT Video" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <h3 class="title is-4" style="font-size: 35px;"><u>TLDR</u>:</h3>
+      <ul style="text-align: left; margin-bottom: 40px; font-size: 20px;">
+        <li>• Our new <b style="color: #8C1515">Optimized Fine-Tuning (OFT)</b> recipe for VLAs — which combines parallel decoding, action chunking, a continuous action representation, and L1 regression objective — significantly enhances inference speed (25-50x) and task performance (20%+ boost in success rate).</li>
+        <li>• <b style="color: #8C1515">OpenVLA-OFT</b>, a policy created with our fine-tuning recipe, achieves <b style="background-color: yellow">SOTA results in LIBERO: 97.1% average success rate</b> across 4 task suites, outperforming π<sub>0</sub>, MDT, Seer, DiT Policy, Octo, and Diffusion Policy.</li>
+        <li>• Our recipe, when augmented with FiLM for better language grounding <b style="color: #8C1515">("OFT+")</b>, enables <b style="background-color: yellow">high-frequency language-driven control on the bimanual ALOHA robot with a 7B-parameter VLA policy</b> and <u>outperforms other fine-tuned VLAs (π<sub>0</sub> and RDT-1B)</u> and <u>popular imitation learning policies trained from scratch (ACT and Diffusion Policy)</u>.<br></li>
+      </ul>
+    </div>
+  </section>
+
+<!-- 
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">OpenVLA-OFT+ on the ALOHA Robot</h2>
+          <div class="content has-text-justified has-text-centered">
+            <img src="static/images/openvla_oft_figure_1.jpeg" />
+            <p>
+              <b>OpenVLA-OFT+ on the bimanual ALOHA robot.</b> OFT enhances fine-tuned OpenVLA policies through improved inference efficiency, model quality, and input-output flexibility. OpenVLA-OFT+ policies execute diverse dexterous manipulation tasks on a real-world bimanual robot at high control frequencies (25 Hz). The "+"" suffix indicates the integration of feature-wise linear modulation (FiLM), which strengthens language grounding in tasks where accurate language understanding is critical for success.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Table of Contents</h2>
+      <div class="content">
+        <ul class="toc-list">
+          <li>
+            <a href="#results">Experimental Results</a>
+            <ul>
+              <li><a href="#libero-task-performance">LIBERO Simulation Benchmark: Task Performance</a></li>
+              <li><a href="#libero-inference-efficiency">LIBERO Simulation Benchmark: Inference Efficiency</a></li>
+              <li><a href="#aloha-task-performance">ALOHA Robot: Task Performance</a></li>
+              <li><a href="#aloha-steerability">ALOHA Robot: Steerability via Language</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#deep-dive">Deep Dive: ALOHA Robot Rollout Videos & Qualitative Analysis</a>
+            <ul>
+              <li><a href="#non-vla">Non-VLA Methods Trained from Scratch: ACT and Diffusion Policy</a></li>
+              <li><a href="#fine-tuned">Fine-Tuned VLA Policies: RDT-1B, π<sub>0</sub>, and OpenVLA-OFT+</a></li>
+              <li>
+                <a href="#other-observations">Other Observations</a>
+                <ul>
+                  <li><a href="#rdt-tradeoffs">RDT-1B: Tradeoffs Between Better Language Grounding and Reactivity</a></li>
+                  <li><a href="#retrying">Retrying Behaviors: π<sub>0</sub> and OpenVLA-OFT+</a></li>
+                  <li><a href="#l1-regression-vs-diffusion">L1 Regression vs. Diffusion</a></li>
+                </ul>
+              </li>
+              <li><a href="#bonus">⭐ Bonus OpenVLA-OFT+ Video: Fully Autonomous Forward and Backward Task Rollouts ⭐</a></li>
+            </ul>
+          </li>
+          <li><a href="#FAQ">Frequently Asked Questions</a></li>
+          <li><a href="#BibTeX">BibTeX</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Experimental Results</h2>
+
+      <h3 class="title is-4" id="libero-task-performance">LIBERO Simulation Benchmark: Task Performance</h3>
+      <img src="static/images/libero_task_performance_results.png" style="width: 850px; display: block; margin: 0 auto;"/>
+      <div class="content has-text-justified">
+        <p>
+          We evaluate OpenVLA-OFT in four LIBERO simulation benchmark task suites, measuring task success rates with and without additional inputs (wrist camera image and proprioceptive state) and comparing it to prior methods. OpenVLA-OFT achieves state-of-the-art results in both categories.
+        </p>
+      </div>
+
+      <h3 class="title is-4" id="libero-inference-efficiency">LIBERO Simulation Benchmark: Inference Efficiency</h3>
+      <img src="static/images/libero_inference_efficiency_results.png" style="width: 1100px; display: block; margin: 0 auto;"/>
+      <div class="content has-text-justified">
+        <p>
+          Through parallel decoding and action chunking, OpenVLA-OFT obtains 26x faster action generation speed and 3x lower latency than the base OpenVLA model.
+        </p>
+      </div>
+
+      <h3 class="title is-4" id="aloha-task-performance">ALOHA Robot: Task Performance</h3>
+      <img src="static/images/aloha_task_performance_results.jpeg" style="width: 900px; display: block; margin: 0 auto;"/>
+      <div class="content has-text-justified">
+        <p>
+          We evaluate both fine-tuned VLAs (RDT-1B, π<sub>0</sub>, OpenVLA-OFT+) and popular imitation learning policies trained from scratch (ACT, Diffusion Policy) on four representative dexterous manipulation tasks on the ALOHA robot. Fine-tuned VLAs consistently outperform from-scratch policies, with OpenVLA-OFT+ achieving the highest average performance.
+        </p>
+      </div>
+
+      <h3 class="title is-4" id="aloha-steerability">ALOHA Robot: Steerability via Language</h3>
+      <img src="static/images/aloha_language_following_results.jpeg" style="width: 850px; display: block; margin: 0 auto;"/>
+      <div class="content has-text-justified">
+
+        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <p>
+              We also assess the language following capabilities of each method, measuring the success rates in approaching the correct language-specified target object for two language-dependent tasks. As expected, the fine-tuned VLA policies (RDT-1B, π<sub>0</sub>, OpenVLA-OFT+) show better language following capabilities than the policies trained from scratch. Overall, OpenVLA-OFT+ exhibits strongest language grounding.
+            </p>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: #f5f5f5;">
+    <div class="container is-max-desktop">
+      <img src="static/images/stop_sign.png" style="display: block; margin: 0 auto; width: 100px;"/>
+      <p style="text-align: center;">We recommend watching the summary video above and reading our paper first before perusing the deep dive below!</p>
+      <br>
+      <p style="text-align: center;">Click the arXiv icon below to go to the paper.</p>
+      <a class="icon" style="display: block; margin: 10px auto 60px auto; width: 60px;" href="https://arxiv.org/abs/2406.09246" target="_blank">
+        <img src="static/images/arxiv_logo.png"/>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="deep-dive">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+            <h2 class="title is-3">Deep Dive: ALOHA Robot Rollout Videos & Qualitative Analysis</h2>
+
+
+            <div class="content has-text-justified">
+              <p>
+                In our paper, we evaluate popular imitation learning policies trained from scratch (ACT and Diffusion Policy) and fine-tuned VLAs (RDT-1B, π<sub>0</sub>, OpenVLA-OFT) on the bimanual ALOHA robot.
+                Here we show real-world rollout videos and focus on qualitative differences between the methods.
+              </p>
+              <p>
+                <i>All videos below were captured by an external camera and are sped up by 5x unless specified otherwise.</i>
+              </p>
+            </div>
+
+            <h3 class="title is-4" id="non-vla">Non-VLA Methods Trained from Scratch: ACT and Diffusion Policy</h3>
+            <div class="content has-text-justified">
+              <p>ACT and Diffusion Policy can reliably execute tasks that involve folding clothes and are not dependent on language inputs, as there is just one object to manipulate per task.</p>
+            </div>
+
+
+            <!-- <div class="container">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item item-steve has-text-centered">
+                  <p id="overlay">ACT</p>
+                  <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+                    <source src="static/videos/act--fold_shorts--rollout--5x.mov" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-steve has-text-centered">
+                  <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+                    <source src="static/videos/diffusion_policy--fold_shorts--rollout--5x.mov" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-steve has-text-centered">
+                  <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+                    <source src="static/videos/diffusion_policy--fold_shorts--rollout--5x.mov" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-steve has-text-centered">
+                  <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+                    <source src="static/videos/diffusion_policy--fold_shorts--rollout--5x.mov" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <br>
+              <p class="has-text-centered">WidowX & Google robot videos show real <b>"zero-shot"</b> rollouts with the OpenVLA model<br>Franka Panda robot videos depict <b>fine-tuned</b> OpenVLA policies</p>
+            </div> -->
+
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>ACT:<br>fold shorts</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/act--fold_shorts--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>Diffusion Policy:<br>fold shorts</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/diffusion_policy--fold_shorts--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>ACT:<br>fold shirt</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/act--fold_shirt--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>Diffusion Policy:<br>fold shirt</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/diffusion_policy--fold_shirt--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <div class="content has-text-justified">
+              <p>In the "scoop X into bowl" task, where the user specifies the target trail mix ingredient via language, ACT and Diffusion Policy approach the correct ingredient most of the time. However, they often make errors during task execution, e.g., hitting the front of the container with the spoon or failing to scoop the ingredients.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>ACT:<br>scoop raisins into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/act--scoop_raisins_into_bowl--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>Diffusion Policy:<br>scoop pretzels into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/diffusion_policy--scoop_pretzels_into_bowl--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <div class="content has-text-justified">
+              <p>Additionally, in the "put X into pot" task, ACT and Diffusion Policy struggle to follow the user's language inputs, often approaching the wrong target object while also making general task execution errors in the process.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>ACT:<br>put red pepper into pot</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/act--put_red_pepper_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>Diffusion Policy:<br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/diffusion_policy--put_green_pepper_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+
+            <h3 class="title is-4" id="fine-tuned">Fine-Tuned VLA Policies: RDT-1B, π<sub>0</sub>, and OpenVLA-OFT+</h3>
+            <div class="content has-text-justified">
+              <p>The fine-tuned VLAs (RDT-1B, π<sub>0</sub>, and OpenVLA-OFT+) can also reliably perform the clothes folding tasks, like the previous methods.</p>
+            </div>
+
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>fold shorts</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--fold_shorts--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>fold shorts</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--fold_shorts--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>fold shorts</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--fold_shorts--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>fold shirt</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--fold_shirt--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>fold shirt</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--fold_shirt--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>fold shirt</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--fold_shirt--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <div class="content has-text-justified">
+              <p>Compared to the non-VLA policies, the fine-tuned VLAs show improved language following and task execution in the "scoop X into bowl" and "put X into pot" tasks.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>scoop raisins into bowl</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--scoop_raisins_into_bowl--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>scoop raisins into bowl</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--scoop_raisins_into_bowl--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>scoop raisins into bowl</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--scoop_raisins_into_bowl--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>put yellow corn into pot</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--put_yellow_corn_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>put yellow corn into pot</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--put_yellow_corn_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>put yellow corn into pot</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--put_yellow_corn_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <div class="content has-text-justified">
+              <p>However, the fine-tuned VLAs are not always successful. In some trials of the "put X into pot" task, π<sub>0</sub> approaches the wrong object while RDT-1B approaches the correct one but fails to finish the task. OpenVLA-OFT+, on the other hand, more frequently targets the correct object and completes the task.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">⚠️</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--put_green_pepper_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--put_green_pepper_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--put_green_pepper_into_pot--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <h3 class="title is-4" id="other-observations">Other Observations</h3>
+
+            <h4 class="title is-5" id="rdt-tradeoffs">RDT-1B: Tradeoffs Between Better Language Grounding and Reactivity to Visual Feedback</h3>
+
+            <div class="content has-text-justified">
+              <p>One error that fine-tuned RDT-1B makes multiple times in the "scoop X into bowl" task is shown below. Even though the robot misses the bowl at the beginning of the episode, it carries on as if the bowl were correctly placed at the center of the table, proceeding to pour the trail mix ingredients all over the table. We attribute this failure mode to RDT-1B's "Alternating Condition Injection" scheme, which alternates between injecting visual inputs and language inputs in successive transformer layers — a design that encourages the policy to pay more attention to language inputs rather than over-relying on visual inputs. Despite improving the model's ability to follow language, this specially designed architecture may lead to an impaired ability to incorporate visual feedback.
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>scoop raisins into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--scoop_raisins_into_bowl--spill--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>scoop almonds and green M&Ms into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--scoop_almonds_and_green_m&ms_into_bowl--spill--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5>RDT-1B:<br>scoop pretzels into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/rdt--scoop_pretzels_into_bowl--spill--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <h4 class="title is-5" id="retrying">Retrying Behaviors: π<sub>0</sub> and OpenVLA-OFT+</h3>
+            <div class="content has-text-justified">
+              <p>On the other hand, while π<sub>0</sub> slightly trails RDT-1B in terms of language following ability, it exhibits better closed-loop visuomotor control. For instance, it occasionally retries after making an initial mistake. OpenVLA-OFT+ demonstrates similar retrying behaviors as well. In the videos below, neither policy finishes the episode since we reach the time limit (π<sub>0</sub> does not drop the pepper into the pot, OpenVLA-OFT+ does not finish closing the pot). However, both methods would have succeeded given more time.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">🔄</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--put_green_pepper_into_pot--retry--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>put green pepper into pot</h5>
+                <h5 style="font-size:30px;">🔄</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--put_green_pepper_into_pot--retry--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <h4 class="title is-5" id="l1-regression-vs-diffusion">L1 Regression vs. Diffusion</h3>
+            <div class="content has-text-justified">
+              <p>Contrary to the common belief that diffusion-based policies are superior to L1 regression-based policies in imitation learning due to their expressivity and multimodal action modeling capabilities, our findings reveal some important nuances. The characteristics that make diffusion models powerful — e.g., their ability to capture complex action distributions — can lead to issues when training on imperfect demonstration data. Specifically, these models can accurately reproduce even suboptimal behaviors present in the training demonstrations, potentially compromising the policy's performance during deployment. In contrast, L1 policies can benefit from an inherent regularization effect by naturally filtering out noise in training demonstrations through their limited expressivity and committing to the median mode in the task demonstrations. This previously overlooked advantage suggests that simpler algorithms may be more robust than their more sophisticated counterparts in some cases.</p>
+              <p>We can see this difference clearly in the practical example shown below: When using a diffusion-based fine-tuned VLA (π<sub>0</sub>) to scoop pretzels, the robot fails because it inserts the spoon too deeply into the container. This problematic behavior arises from reproducing some demonstration sequences where the expert demonstrator had inserted the spoon too deeply into the pretzels container (making it difficult for the policy to retract the spoon afterwards). π<sub>0</sub> generates this same behavior two times in twelve trials.</p>
+              <p>In comparison, our OpenVLA-OFT+ approach, which uses L1 regression, learns to insert the spoon at an ideal depth—neither too deep nor too shallow—and executes the scooping more reliably (achieving 100% success rate on this task).</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel">
+              <div class="column has-text-centered">
+                <h5>π<sub>0</sub>:<br>scoop pretzels into bowl</h5>
+                <h5 style="font-size:30px;">❌</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/pi0--scoop_pretzels--into_bowl--stuck--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>scoop pretzels into bowl</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--scoop_pretzels_into_bowl--not_stuck--rollout--5x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+            <div class="content has-text-justified">
+              <p>Note: We do not intend to suggest that L1 policies are universally better than diffusion policies. In fact, if the action distribution in the training set is multimodal, L1 regression-based optimization may lead to learning just one "median" mode in the action distribution (which, importantly, is different from the "mean" mode that MSE regression-based approaches would collapse to). This may not be ideal in certain cases where generating alternative action sequences can be beneficial for task completion. However, in the real world, high-dimensional data such as camera readings are noisy, and with the noise <a href="https://github.com/alexander-soare/little_experiments/blob/main/action_multimodality.md" target="_blank">even deterministic policies can produce seemingly "multimodal" behaviors</a>.</p>
+              <p>Overall, in practice, we find that a simple L1 regression-based approach with a high-capacity policy backbone like OpenVLA proves to be quite effective for adapting to new robots and new tasks.</p>
+            </div>
+            <br>
+
+
+            <h3 class="title is-4" id="bonus">⭐ Bonus OpenVLA-OFT+ Video: Fully Autonomous Forward and Backward Task Rollouts ⭐</h3>
+
+            <div class="content has-text-justified">
+              <p>We show a bonus clip in which OpenVLA-OFT+ autonomously performs the forward task ("scoop X into bowl") and backward/reset task ("pour X into container") in six consecutive rollouts, alternating between the two tasks while cycling through the three trail mix ingredients based on preset language commands. This particular policy was trained on extra data with demonstrations of the backward task. With our strong imitation learning framework, a policy can autonomously execute a task <i>and</i> reset the scene effectively while also exhibiting steerability via language.</p>
+            </div>
+
+            <div class="columns is-vcentered interpolation-panel" style="width: 900px; display: block; margin: 0 auto;">
+              <div class="column has-text-centered">
+                <h5><span style="background-color: yellow">OpenVLA-OFT+ (ours):</span><br>scoop X into bowl & pour X into container<br>(X = "raisins" → "almonds and green M&Ms" → "pretzels")</h5>
+                <h5 style="font-size:30px;">✅</h5>
+                <video autoplay controls muted loop playsinline width="100%">
+                  <source src="static/videos/openvla_oft--scoop_x_into_bowl--6_consecutive_rollouts--15x.mov" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <br>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" style="background: #f5f5f5;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3" id="FAQ">Frequently Asked Questions</h2>
+      <p>(Last updated on 2025-02-22)</p><br>
+      <p style="font-size: 20px;" id="train-compute"><b>How much compute do I need to fine-tune OpenVLA using the OFT recipe? What if I just want to run inference?</b></p><br>
+      <p><u>Training</u><br>For this project, we ran each OpenVLA-OFT training job with <b>8 A100 or H100 GPUs with 80 GB memory</b> and trained for 50K to 150K gradient steps, depending on the fine-tuning dataset size, which took 1-2 days. We recommend using 4 or 8 GPUs if possible, though you <i>can</i> use fewer GPUs and enable gradient accumulation (which is supported by our fine-tuning script); the training runs will just take longer. Since we fine-tune OpenVLA with LoRA instead of full fine-tuning, there is no need to do model sharding. We simply use Distributed Data Parallel (DDP) and split training samples in a batch across multiple GPUs.</p>
+      <br>
+      <p>
+        Here is the <b>minimum</b> GPU memory that is needed for each OpenVLA-OFT(+) training configuration with the default bfloat16 data type:
+        <ul>
+          <li>• LIBERO - 1 input image (third-person camera), 7 action dimensions, action chunk size 8, batch size 1 → <b>25.6 GB</b></li>
+          <li>• LIBERO - 2 input images (third-person + wrist camera) + proprio state, 7 action dimensions, action chunk size 8, batch size 1 → <b>25.7 GB</b></li>
+          <li>• ALOHA - 3 input images (third-person + 2 wrist cameras) + proprio state, 7 action dimensions, action chunk size 25, FiLM, batch size 1 → <b>38.6 GB</b></li>
+        </ul>
+      </p>
+      <br>
+      <p>
+        Here is the <b>recommended</b> GPU memory for each OpenVLA-OFT(+) training configuration with the default bfloat16 data type:
+        <ul>
+          <li>• LIBERO - 1 input image (third-person camera), 7 action dimensions, action chunk size 8, batch size 8 per device → <b>44.1 GB</b></li>
+          <li>• LIBERO - 2 input images (third-person + wrist camera) + proprio state, 7 action dimensions, action chunk size 8, batch size 8 per device → <b>62.5 GB</b></li>
+          <li>• ALOHA - 3 input images (third-person + 2 wrist cameras) + proprio state, 14 action dimensions, action chunk size 25, FiLM, batch size 4 per device → <b>73.5 GB</b></li>
+        </ul>
+      </p>
+      <br>
+      <p><u>Inference</u><br>
+        To run OpenVLA-OFT(+) with the default bfloat16 data type, you need less GPU memory:
+        <ul>
+          <li>• LIBERO - 1 input image (third-person camera), 7 action dimensions, action chunk size 8 → <b>15.9 GB</b></li>
+          <li>• LIBERO - 2 input images (third-person + wrist camera) + proprio state, 7 action dimensions, action chunk size 8 → <b>16.2 GB</b></li>
+          <li>• ALOHA - 3 input images (third-person + 2 wrist cameras) + proprio state, FiLM, 14 action dimensions, action chunk size 25 → <b>20.2 GB</b></li>
+        </ul>
+      </p>
+      <br>
+      <p style="font-size: 20px;"><b>How does OpenVLA-OFT, which is an L1 policy, outperform fine-tuned diffusion VLAs like RDT-1B and π<sub>0</sub>, which use more sophisticated algorithms and larger pretraining datasets?</b></p><br>
+      <p>Please see the section on <a href="#l1-regression-vs-diffusion">L1 Regression vs. Diffusion</a>.</p>
+      <br>
+      <p style="font-size: 20px;"><b>Does OpenVLA's pretraining help at all if your new fine-tuning recipe uses a different learning algorithm and architecture?</b></p><br>
+      <p>Yes. We ran an ablation study in LIBERO and observed a 5% drop in average success rate when ablating the OpenVLA pretrained representation. See Appendix H and Table XIV in our paper for more details.</p>
+      <br>
+      <p style="font-size: 20px;"><b>Why did you need so many demonstrations for the "put X into pot" task? Even with 300 demonstrations, why is the performance in this task much lower than in other tasks, which seem more difficult?</b></p><br>
+      <p><u>Number of demonstrations</u>: We do not actually need all 300 demonstrations for satisfactory performance on this task. We simply collected a large number of demonstrations because it was during a point in our project when learned policies were showing poor language following, and we experimented with increasing the training dataset size significantly to test whether this would enable better language grounding. It turned out that simply doubling/quadrupling the dataset size did not solve the problem, as it only slightly improved language following ability. To achieve much better language grounding, we had to take additional measures to encourage the model to pay more attention to language — such as FiLM for fine-tuned OpenVLA policies, which infuses language embedding information into all visual features.</p>
+      <br>
+      <p><u>Task performance</u>: This is the first task that we started with and collected demonstrations for on the ALOHA robot setup, and therefore, it is the oldest. We observed significant performance degradation in all methods over time due to hardware-related distribution shifts that arose as time passed (e.g., shifts in the wrist camera viewpoints and slight wear-and-tear in a few robot joints, which affected the dynamics). Earlier on in the project, after we figured out how to imbue policies with enhanced language grounding, we would observe over 90% success rate on this task with fine-tuned OpenVLA policies. However, due to distribution shifts, performance dropped quite significantly when we ran the tests again weeks later. To ensure fair comparisons between methods, we evaluated all methods at the same time so that they all encounter the same train-test distribution shifts — hence the relatively low average rates on this task across all methods.</p>
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>
+        @article{kim25finetuning,
+        title={Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success},
+        author={{Moo Jin} Kim and Chelsea Finn and Percy Liang},
+        journal = {arXiv preprint arXiv:2406.09246}, 
+        year={2025},}
+      </code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p> Website borrowed from <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">NeRFies</a> and <a href="https://openvla.github.io" target="_blank">OpenVLA</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
